@@ -105,6 +105,9 @@
 
 
 <script>
+// 导入公共样式
+import commmon from '../../common/common.js'
+
   export default {
     data() {
       return {
@@ -118,10 +121,9 @@
     methods: {
       // 定义一个方法 , 用来获取录播图需要的数据
       getLunboArrayData() {
-        const url = "http://vue.studyit.io/api/getlunbo";
+        const url = commmon.apihost + "api/getlunbo";
         this.$http.get(url).then(response => {
           this.lunboArray = response.body.message;
-          console.log(this.lunboArray);
         });
       }
     }

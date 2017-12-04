@@ -1,17 +1,17 @@
 <template>
   <div>
       <ul class="mui-table-view">
-          <li v-for="(item ,index) in newsList" v-bind:key="item.id" class="mui-table-view-cell mui-media">
-              <a href="javascript:;">
+          <li v-for="item in newsList" v-bind:key="item.id" class="mui-table-view-cell mui-media">
+              <router-link :to="'/news/newsInfo/'+item.id">
                   <img class="mui-media-object mui-pull-left" v-bind:src="item.img_url">
                   <div class="mui-media-body">
-                      <p class='mui-ellipsis'>{{item.zhaiyao}}</p>
+                      <p class='mui-ellipsis'>{{item.title}}</p>
                       <p class="mui-clearfix">
-                        <span class="mui-pull-left">{{item.add_time}}</span>
+                        <span class="mui-pull-left">{{item.add_time | fmtDate('YYYY-MM-DD HH:mm:ss')}}</span>
                         <span class="mui-pull-right">点击数{{item.click}}次</span>
                       </p>
                   </div>
-              </a>
+              </router-link>
           </li>
       </ul>
   </div>
@@ -42,6 +42,10 @@
 
 
 <script>
+// 导入公共对象 
+import common from '../../common/common.js'
+
+// 导出
   export default {
     data() {
       return {
@@ -54,10 +58,9 @@
     methods: {
       // 获取新闻列表数据的方法
       getnewsListData() {
-        const url = "http://vue.studyit.io/api/getnewslist"
+        const url = common.apihost+"api/getnewslist"
         this.$http.get(url).then(Response => {
           this.newsList = Response.body.message
-          console.log(Response);
         })
       }
     }

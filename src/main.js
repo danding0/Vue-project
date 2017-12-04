@@ -9,6 +9,8 @@ Vue.use(vueRouter)
 // 资源包
 import vueResource from "vue-resource"
 Vue.use(vueResource)
+// 时间包
+import moment from 'moment'
 
 // css样式
 // 导入mint-ui样式
@@ -24,6 +26,15 @@ import category from '@/category/category'
 import newList from './components/news/newsList.vue'
 import shoppingCart from './components/shoppingCart/shoppingcart.vue'
 import user from './components/user/user.vue'
+import newsInfo from './components/news/newsInfo.vue'
+
+// 全局时间格式过滤器
+Vue.filter('fmtDate',(input,formatString)=>{
+  const lastFormatString = formatString || "YYYY-MM-DD HH:mm:ss"
+  // moment 里面接的参数 , 要过滤的原始时间 ,
+  // format里面的参数, 要格式化成的字符串
+  return moment(input).format(lastFormatString)
+})
 // 设置路由
 const router = new vueRouter({
   routes:[
@@ -33,6 +44,7 @@ const router = new vueRouter({
   { path: "/news/newList" , component:newList},
   { path: "/shoppingCart" , component:shoppingCart},
   { path: "/user" , component:user},
+  { path: "/news/newsInfo/:newsId" , component:newsInfo},
 ]
 })
 // 创建根实例(View-Model),让根实例显示App.vue
