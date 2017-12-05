@@ -27,7 +27,7 @@ import newList from './components/news/newsList.vue'
 import shoppingCart from './components/shoppingCart/shoppingcart.vue'
 import user from './components/user/user.vue'
 import newsInfo from './components/news/newsInfo.vue'
-
+import photoList from './components/photo/photoList.vue'
 // 全局时间格式过滤器
 Vue.filter('fmtDate',(input,formatString)=>{
   const lastFormatString = formatString || "YYYY-MM-DD HH:mm:ss"
@@ -45,10 +45,11 @@ const router = new vueRouter({
   { path: "/shoppingCart" , component:shoppingCart},
   { path: "/user" , component:user},
   { path: "/news/newsInfo/:newsId" , component:newsInfo},
+  { path: "/photo/photoList" , component:photoList}
 ]
 })
 // 创建根实例(View-Model),让根实例显示App.vue
-var vm = new Vue({
+new Vue({
   el:'#app',
   router,
   render:createElement=>createElement(App)    // es6 箭头函数
