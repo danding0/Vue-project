@@ -3,16 +3,22 @@
     <!-- 分类标题 -->
     <div class="title">
       <ul>
-        <li>全部</li>
-        <li v-for="item in photoCategory" :key="item.id">{{item.title}}</li>
+        <li @click="getPhotoListData(0)">全部</li>
+        <li @click="getPhotoListData(item.id)" v-for="item in photoCategory" :key="item.id">{{item.title}}</li>
       </ul>
     </div>
     <!-- 图片区 -->
     <div class="imgList">
       <ul>
-        <li>
-          <img src="../../statics/images/menu10.png" alt="">
-          <p>huihugughuvuhvuivuvuvibuvhjvuhubibiiuihjhbhjjhbbh</p>
+        
+        <li v-for="item in photoList" :key="item.id">
+          <router-link :to="'/photo/photoInfo'+item.id">
+          <img :src="item.img_url" alt="">
+          <p>
+            <span>{{item.title}}</span>
+            {{item.zhaiyao}}
+          </p>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -54,6 +60,7 @@
   position: absolute;
   bottom: 10px;
   color: #ffffff;
+  background-color: rgba(0,0,0,0.3);
 }
 </style>
 
@@ -64,12 +71,13 @@ import commen from "../../common/common.js";
 export default {
   data() {
     return {
-      photoCategory: []
+      photoCategory: [],  // 分类数组
+      photoList: []   // 图片列表
     };
   },
   created() {
-    this.getPhotoCategoryData();
-    // this.getPhotoListData()
+    this.getPhotoCategoryData();  // 分类函数
+    this.getPhotoListData(0)   // 图片函数
   },
   methods: {
     // 获取分类
@@ -80,10 +88,16 @@ export default {
         this.photoCategory = Response.body.message;
       });
     },
-    // 获取渲染数据
-    getPhotoListData(){
-     
+    // 获取图片渲染数据
+    getPhotoListData(categoryId){
+     const url = `${commen.apihost}api/getimages/${categoryId}`
+        //  console.log(url);
+     this.$http.get(url).then(Response=>{
+        // console.log(Response);
+        this.photoList = Response.body.message
+     })
     }
   }
 };
 </script>
+

@@ -11,6 +11,9 @@ import vueResource from "vue-resource"
 Vue.use(vueResource)
 // 时间包
 import moment from 'moment'
+// 图片预览包
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview)
 
 // css样式
 // 导入mint-ui样式
@@ -28,6 +31,9 @@ import shoppingCart from './components/shoppingCart/shoppingcart.vue'
 import user from './components/user/user.vue'
 import newsInfo from './components/news/newsInfo.vue'
 import photoList from './components/photo/photoList.vue'
+import photoInfo from './components/photo/photoInfo.vue'
+import goodsList from './components/goods/goodsList.vue'
+import goodsInfo from './components/goods/goodsInfo.vue'
 // 全局时间格式过滤器
 Vue.filter('fmtDate',(input,formatString)=>{
   const lastFormatString = formatString || "YYYY-MM-DD HH:mm:ss"
@@ -45,7 +51,10 @@ const router = new vueRouter({
   { path: "/shoppingCart" , component:shoppingCart},
   { path: "/user" , component:user},
   { path: "/news/newsInfo/:newsId" , component:newsInfo},
-  { path: "/photo/photoList" , component:photoList}
+  { path: "/photo/photoList" , component:photoList},
+  { path: "/photo/photoInfo:photoId", component:photoInfo},
+  { path: "/goods/goodsList" , component:goodsList},
+  { path: "/goods/goodsInfo/:goodsId" , component:goodsInfo}
 ]
 })
 // 创建根实例(View-Model),让根实例显示App.vue

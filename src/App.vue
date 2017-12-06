@@ -64,6 +64,7 @@ export default {
       isShowTabBar: true // 是否显示TabBar
     };
   },
+  //
   created() {
     this.isShowOrHidden(this.$route.path);
   },
