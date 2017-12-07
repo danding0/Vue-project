@@ -1,11 +1,7 @@
 <template>
   <div>
-    <!-- 轮播图 -->
-    <mt-swipe :auto="3000">
-      <mt-swipe-item v-for="(item,index) in lunboArray" v-bind:key="index">
-        <img :src="item.img" alt="">
-      </mt-swipe-item>
-    </mt-swipe>
+    <!-- 轮播图子组件 -->
+    <subswipe lunbo_url="api/getlunbo" :luobo_time="3000"></subswipe>
     <!-- 九宫格布局 -->
       <ul class="mui-table-view mui-grid-view mui-grid-9">
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -54,16 +50,7 @@
 </template>
 
 <style scoped>
-  /* 轮播图样式 */
-  .mint-swipe {
-    width: 100%;
-    height: 260px;
-  }
 
-  .mint-swipe img {
-    width: 100%;
-    height: 100%;
-  }
   /* 九宫格布局样式 */
   .mui-icon {
     width: 50px;
@@ -106,26 +93,11 @@
 
 <script>
 // 导入公共样式
-import commmon from '../../common/common.js'
+import subswipe from '../subcomments/subswipe.vue'
 
   export default {
-    data() {
-      return {
-        lunboArray: [] // 设置录播图所需要的模型
-      };
-    },
-    // 这个方法时Vue的声明周期方法之一 , 当我们实现了之后, 当home.vue被创建出来的时候就会自动调用
-    created() {
-      this.getLunboArrayData();
-    },
-    methods: {
-      // 定义一个方法 , 用来获取录播图需要的数据
-      getLunboArrayData() {
-        const url = commmon.apihost + "api/getlunbo";
-        this.$http.get(url).then(response => {
-          this.lunboArray = response.body.message;
-        });
-      }
+    components:{
+      subswipe
     }
   };
 </script>

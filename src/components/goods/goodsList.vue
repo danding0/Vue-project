@@ -77,7 +77,7 @@ export default {
     getGoodsList(){
       const url = `${common.apihost}api/getgoods`
       this.$http.get(url).then(Response=>{
-        console.log(Response.body.message);
+        // console.log(Response.body.message);
         this.goodsList = Response.body.message
       })
     }

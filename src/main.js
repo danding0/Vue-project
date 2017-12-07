@@ -34,6 +34,8 @@ import photoList from './components/photo/photoList.vue'
 import photoInfo from './components/photo/photoInfo.vue'
 import goodsList from './components/goods/goodsList.vue'
 import goodsInfo from './components/goods/goodsInfo.vue'
+import picAndText from './components/goods/picAndText.vue'
+import goodsComment from './components/goods/goodsComment.vue'
 // 全局时间格式过滤器
 Vue.filter('fmtDate',(input,formatString)=>{
   const lastFormatString = formatString || "YYYY-MM-DD HH:mm:ss"
@@ -54,7 +56,9 @@ const router = new vueRouter({
   { path: "/photo/photoList" , component:photoList},
   { path: "/photo/photoInfo:photoId", component:photoInfo},
   { path: "/goods/goodsList" , component:goodsList},
-  { path: "/goods/goodsInfo/:goodsId" , component:goodsInfo}
+  { path: "/goods/goodsInfo/:goodsId" , component:goodsInfo},
+  { path: "/goods/picAndText/:goodsId" ,component:picAndText},
+  { path: "/goods/goodsComment",component:goodsComment}
 ]
 })
 // 创建根实例(View-Model),让根实例显示App.vue

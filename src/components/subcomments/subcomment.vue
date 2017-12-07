@@ -108,7 +108,7 @@
           });
           return
         }
-        console.log(this.commentsinfo);
+        // console.log(this.commentsinfo);
         // 发送post请求 , 提交评论
         const url = common.apihost + "api/postcomment/" + this.commentId;
         // console.log(url);

@@ -8,8 +8,6 @@
    <router-view class="router-view-style"></router-view>
    <!-- 底部通栏 -->
    <mt-tabbar :class="isShowTabBar ? '':'hiddenTabBarStyle' " fixed class="is-fixed  hideTabBarStyle">
-
-    <!-- 轮播图 -->
   <mt-tab-item >
     <router-link to="/home">
     <img src="http://img08.jiuxian.com/bill/2016/0224/cccd8df26a754c139de800406af82178.png">
@@ -21,7 +19,8 @@
     </router-link>
   </mt-tab-item>
   <mt-tab-item >
-    <router-link to="/shoppingCart">
+    <router-link class="shoppingCart" to="/shoppingCart">
+    <span v-if="shoppingCount" class="superscript  mui-badge mui-badge-danger">{{this.shoppingCount}}</span>
     <img src="http://img08.jiuxian.com/bill/2016/0224/42baf46987b6460bb43b3396e9941653.png">
     </router-link>
   </mt-tab-item>
@@ -54,19 +53,36 @@ img {
 .hiddenTabBarStyle {
   display: none;
 }
+.shoppingCart {
+  position: relative;
+}
+.shoppingCart .superscript {
+  position: absolute;
+  left: 26px;
+  top: -30px;
+}
 </style>
 
 <script>
+import subgoodsnum from "./components/subcomments/subGoodsNum"
+import bus from "./common/commonargument .js"
+
+
 export default {
   data() {
     return {
       isShowBack: false, // 是否显示返回按钮
-      isShowTabBar: true // 是否显示TabBar
+      isShowTabBar: true, // 是否显示TabBar
+      shoppingCount:0,  // 购物车默认值
     };
   },
   //
   created() {
     this.isShowOrHidden(this.$route.path);
+    // 接收添加购物车传过来的值
+    bus.$on('addShopping', (goodsCount)=> {
+      this.shoppingCount +=goodsCount
+    })
   },
   methods: {
     // 返回
@@ -82,6 +98,10 @@ export default {
         this.isShowTabBar = true;
       }
     }
+
+  },
+  components:{
+     subgoodsnum
   },
   watch: {
     // 属性名称 : 代表要监控的对象
