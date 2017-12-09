@@ -14,7 +14,9 @@ import moment from 'moment'
 // 图片预览包
 import VuePreview from 'vue-preview'
 Vue.use(VuePreview)
-
+// 导入 vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
 // css样式
 // 导入mint-ui样式
 import 'mint-ui/lib/style.css';
@@ -61,10 +63,62 @@ const router = new vueRouter({
   { path: "/goods/goodsComment",component:goodsComment}
 ]
 })
+
+// 创建 vuex 创库
+const store = new Vuex.Store({
+  // 创建小仓库,值为对象,里面是我们需要存储的数据,
+  state:{
+    addShoppingCartGoodsList:[]
+  },
+  // 从仓库中取值,getters为一个对象, 里面也是一个方法,函数第一个参数必须是state,并且需要有返回值
+  getters:{
+    getGoodsTotalCount(state){
+      // 声明一个变量记录添加的总数
+      let totalCount = 0
+      state.addShoppingCartGoodsList.forEach(goods=>{
+        totalCount+=goods.count
+      })
+      return totalCount
+    },
+    // 获取购物车所有的数据
+    getGoodsList(state){
+      return state.addShoppingCartGoodsList
+    }
+  },
+  // 同步存储,也是一个对象,里面为一个函数(函数第一个参数必须是state)
+  // 调用的时候使用this.$store.commit('方法名称',载荷),载荷也就是参数
+  mutations:{
+    /**
+     * 这个方法,将来是goodsinfo.vue调用,把商品信息传递过来保存的仓库中的
+     * addShoppingCartGoodsList数组中
+     */
+    addGoods(state,goods){
+      state.addShoppingCartGoodsList.push(goods)
+    },
+    // 根据商品id删除相应的数据
+    deleteGoodsByGoodsId(state,goodsId){
+      for(var i=state.addShoppingCartGoodsList.length-1;i>=0;i--){
+          const everyGoodsItem = state.addShoppingCartGoodsList[i]
+          if(goodsId == everyGoodsItem.goodsId){
+              state.addShoppingCartGoodsList.splice(i,1)
+          }
+      }
+  }
+  },
+  actions:{
+    //context 有点类似于 $store的感觉
+    addGoodsAsync(context,goods){
+        setTimeout(()=>{
+            context.commit('addGoods',goods)
+        },2000)
+    }
+}
+})
 // 创建根实例(View-Model),让根实例显示App.vue
 new Vue({
   el:'#app',
-  router,
+  store,  // 将vuex仓库注入到根实例中,可以全局使用
+  router,  // 将路由注入到根实例中,可以全局使用
   render:createElement=>createElement(App)    // es6 箭头函数
   
 })

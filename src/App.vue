@@ -20,7 +20,7 @@
   </mt-tab-item>
   <mt-tab-item >
     <router-link class="shoppingCart" to="/shoppingCart">
-    <span v-if="shoppingCount" class="superscript  mui-badge mui-badge-danger">{{this.shoppingCount}}</span>
+    <span v-show="this.shoppingCount" class="superscript  mui-badge mui-badge-danger">{{this.shoppingCount}}</span>
     <img src="http://img08.jiuxian.com/bill/2016/0224/42baf46987b6460bb43b3396e9941653.png">
     </router-link>
   </mt-tab-item>
@@ -64,9 +64,7 @@ img {
 </style>
 
 <script>
-import subgoodsnum from "./components/subcomments/subGoodsNum"
-import bus from "./common/commonargument .js"
-
+// import bus from "./common/commonargument .js"
 
 export default {
   data() {
@@ -80,9 +78,15 @@ export default {
   created() {
     this.isShowOrHidden(this.$route.path);
     // 接收添加购物车传过来的值
-    bus.$on('addShopping', (goodsCount)=> {
-      this.shoppingCount +=goodsCount
-    })
+    // 接收方通过创建的Vue对象 . $on("自定义事件名",处理函数)接收,处理函数的参数为发送方传过来的值
+    // bus.$on('addShopping', (goodsCount)=> {
+    //   this.shoppingCount +=goodsCount
+    // })
+  },
+  // 声明周期钩子 updates 更新后
+  updated(){
+    // 从仓库中取出加入购物车的总数中,然后赋值给角标显示
+    this.shoppingCount = this.$store.getters.getGoodsTotalCount
   },
   methods: {
     // 返回
@@ -99,9 +103,6 @@ export default {
       }
     }
 
-  },
-  components:{
-     subgoodsnum
   },
   watch: {
     // 属性名称 : 代表要监控的对象

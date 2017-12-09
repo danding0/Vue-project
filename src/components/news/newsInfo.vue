@@ -10,6 +10,7 @@
       <p v-html="newsInfo.content"></p>
     </div>
     <!-- 评论子组件 -->
+    <!-- 动态绑定参数传值给子组件 -->
     <subcomment v-bind:commentId="this.$route.params.newsId"> </subcomment>
   </div>
 
