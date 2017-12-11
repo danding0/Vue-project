@@ -61,10 +61,13 @@
       // 获取新闻列表数据的方法
       getnewsListData() {
         const url = common.apihost + "api/getnewslist";
-        this.$http.get(url).then(Response => {
-          this.newsList = Response.body.message;
-        });
-      }
+        // this.$http.get(url).then(Response => {
+        //   this.newsList = Response.body.message;
+        // });
+        this.$axios.get(url).then(Response => {
+          this.newsList = Response.data.message;
+      })
     }
-  };
+  }
+}
 </script>
