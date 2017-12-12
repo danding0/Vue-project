@@ -102,6 +102,8 @@
              // 仓库中取出存在里面的是数组[{goodsId:87,count:2},{goodsId:88,count:3}, {goodsId:87,count:3}]
              // 取出仓库存的值
              const goodsList = this.$store.getters.getGoodsList
+
+             
             //  console.log(goodsList);
             // 此时取出来的值为[{goodsId:87,count:2},{goodsId:88,count:3}, {goodsId:87,count:3}] 但是后台需要的的 api/goods/getshopcarlist/87,88,89 变成临时的对象
                //最终应该变成 const tempObj = {87:5,88:3}
@@ -178,3 +180,6 @@
        }
    }
 </script>
+
+
+

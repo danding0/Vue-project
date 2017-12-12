@@ -823,3 +823,122 @@ module : 可以创建多个仓库
 	包:vuex
 	应用场景:在使用vuex存取购物车的数据时候用到
 	安装方式：cnpm i vuex --save/-S
+## webpack打包上线
+
+```
+webpack把源代码打包成符合生产环境部署的前端资源
+	理解就行，工作中，拷贝我的代码就行
+```
+
+### 打包优化的思路(代码能记住多少，到时候去公司开发，就把那个写好的生产阶段的webpack配置文件拷贝过去就行)
+
+```
+1、对bundle.js进行es6转es5及压缩
+```
+
+```
+2、
+```
+
+### 代码步骤
+
+```
+1、在项目根目录下创建一个生产阶段的webpack.config.prod.js配置文件
+	注意:生产阶段配置文件中的内容，就是在开发阶段的基础上，多写一些针对生产环境的配置
+	
+2、在package.json中增加一个scripts的配置
+	"build":"webpack --progress --config webpack.config.prod.js"
+	
+3、对我们项目中es6的代码转es5【babel】
+	参考:https://babeljs.io/docs/setup/#installation 选择webpack构建工具
+	
+	3.1、安装包
+		cnpm i babel-loader babel-core babel-preset-env --save-dev
+	
+	3.2、使用
+		在当前根目录下，创建一个babel的配置文件，写好预设代码
+			{
+			    "presets": ["env"]
+			}
+			
+		在webpack.config.prod.js中对js进行转换
+			{ 
+                test: /\.js$/, 
+                exclude: /node_modules/, 
+                loader: "babel-loader" 
+            },
+            {
+                test: /vue-preview.src.*?js$/,
+                loader: 'babel-loader'
+            }
+            
+4、对bundle.js和index.html压缩
+	压缩bundle.js
+		参考:https://cn.vuejs.org/v2/guide/deployment.html
+		在 webpack.config.prod.js 中配置
+			new webpack.DefinePlugin({
+	            'process.env': {
+	              NODE_ENV: '"production"'
+	            }
+	        }),
+	        new webpack.optimize.UglifyJsPlugin({
+	            compress: {
+	                warnings: false //压缩警告
+	            },
+	            comments: false //去掉版权信息等注释
+	        })
+   	
+   	压缩index.html
+   		参考:https://github.com/jantimon/html-webpack-plugin
+   		https://github.com/kangax/html-minifier#options-quick-reference
+			minify:{
+                collapseWhitespace:true,//压缩空格
+                removeComments:true,//去除注释
+                minifyJS:true,//压缩js
+                minifyCSS:true//压缩css
+            }
+            
+ 5、对bundle.js进行优化
+ 	达到的目的：
+ 		bundle.js 尽可能小，可包含我们自己写的源代码
+ 		
+ 	什么原因造成他过大?
+ 		项目中用的图标
+ 		第三方包
+ 		项目中的样式
+```
+
+### 把项目中的图片和第三方包及样式，从bundle.js抽离出来
+
+```
+你知道原理即可，能记住则记住，到时候看我的笔记和代码即可
+```
+
+```
+1、从bundle.js中抽离图片(见代码)
+```
+
+```
+2、从bundle.js中抽离第三方包(见代码)
+	entry:
+		改成对象，多入口
+		
+	output
+		改成多出口
+		
+	plugin
+		见代码
+		
+3、从bundle.js中抽离第三方样式
+	使用一个第三方插件
+		https://github.com/webpack-contrib/extract-text-webpack-plugin
+```
+
+```
+4、vue提供了路由懒加载（把每个组件从bundle.js中抽离出来，等需要的时候，再按需加载...）
+	第一步：安装 https://babeljs.io/docs/plugins/syntax-dynamic-import/
+	
+	第二步：把router.js中，导入组件的方式改成 const Foo = () => import('./Foo.vue')
+```
+
+### 发布阿里云
